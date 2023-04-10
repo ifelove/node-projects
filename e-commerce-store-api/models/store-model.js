@@ -9,11 +9,15 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  price: {
+    type: Number,
+    default: 0.0,
+  },
   rating: {
     type: Number,
     default: 4.5,
   },
-  ccreatedAt: {
+  createdAt: {
     type: Date,
     default: Date.now(),
   },

@@ -13,6 +13,6 @@ router.route('/static').get(getAllProductStatic)
 
 
 
-
+ 
 
 module.exports=router

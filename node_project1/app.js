@@ -11,10 +11,9 @@ require("dotenv").config();
 
 //middleware
 app.use(express.json());
-
 //route
 //app.get("/hello", (req, res) => {
- // res.send("Hello world");
+// res.send("Hello world");
 //});
 
 app.use("/api/vi/items", items);

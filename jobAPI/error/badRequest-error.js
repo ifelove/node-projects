@@ -5,7 +5,7 @@ class BadRequestError extends CustomAPIError{
 
     constructor(message){
         super(message)
-        this.statusCode=StatusCodes
+        this.statusCode=StatusCodes.BAD_REQUEST
     }
 }
 

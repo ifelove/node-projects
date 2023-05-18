@@ -31,9 +31,11 @@ const login = async (req, res) => {
   const {email,password}=req.body
   if(!email || !password){throw new BadrequestError('Password or Email not provided')}
   const user=await User.findOne({email})
-  //compare password
+  
 
   if(!user){throw new UnauthenticatedError('Invalid creadentials')}
+  const isPasswordCorrect=await user.comparePassword(password)
+  if(!isPasswordCorrect){throw new UnauthenticatedError('Invalid Password')}
  const token = user.createJWT();
  res.status(StatusCodes.OK).send({ user: { name: user.name }, token });
 };

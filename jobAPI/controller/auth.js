@@ -20,7 +20,7 @@ const tempUser={name,email,password:hashedPassword}
   const user = await User.create({ ...req.body });
   
  // const token=jwt.sign({userID:user._id,name:user.name},'jwtSecrete',{expiresIn:'30d'})
-
+ const token=user.createJWT()
   res.status(StatusCodes.CREATED).send({user:{name:user.name}, token });
 
  // res.status(StatusCodes.CREATED).send({ user: { name: user.getName() }, token });

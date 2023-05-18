@@ -1,5 +1,5 @@
 const User=require('../model/User')
-const jwt=require(jsonwebtoken)
+const jwt=require('jsonwebtoken')
 const {UnauthenticatedError}=require('../error')
 
 

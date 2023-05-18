@@ -38,10 +38,15 @@ UserSchema.pre('save',async function(){
 
 //usin instance method of mongoose
 UserSchema.methods.creatJWT=function () {
-  return jwt.sign({ userID: this._id, name: this.name }, "jwtSecrete", {
-    expiresIn: "30d",
+  return jwt.sign({ userID: this._id, name: this.name }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
   });//return must be there
 
+}
+
+UserSchema.methods.comparePassword=async function (candidatePassword){
+  const isMatch=await bcrypt.compare(candidatePassword,this.password)
+  return isMatch
 }
 
 

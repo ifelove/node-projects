@@ -1,6 +1,6 @@
 const User=require('../model/User')
 const{StatusCodes}=require('http-status-codes')
-//const {BadrequestError}=require('../error')
+const {BadrequestError,UnauthenticatedError}=require('../error')
 const bcrypt=require('bcryptjs')
 //const jwt=require('jsonwebtoken')
 
@@ -28,7 +28,14 @@ const tempUser={name,email,password:hashedPassword}
 }
 
 const login = async (req, res) => {
-  res.send("Login.....");
+  const {email,password}=req.body
+  if(!email || !password){throw new BadrequestError('Password or Email not provided')}
+  const user=await User.findOne({email})
+  //compare password
+
+  if(!user){throw new UnauthenticatedError('Invalid creadentials')}
+ const token = user.createJWT();
+ res.status(StatusCodes.OK).send({ user: { name: user.name }, token });
 };
 
 module.exports={login,registerUser}

@@ -37,7 +37,7 @@ UserSchema.pre('save',async function(){
 })
 
 //usin instance method of mongoose
-UserSchema.methods.creatJWT=function () {
+UserSchema.methods.createJWT=function () {
   return jwt.sign({ userID: this._id, name: this.name }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });//return must be there

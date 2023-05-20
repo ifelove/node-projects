@@ -21,9 +21,11 @@ const jobRoute = require("./route/job");
 
 app.use(express.json());
 
-app.use("/api/v1/jobs", authenticateUser ,jobRoute);
-app.use("/api/v1/auth", authRoute);
 //route
+app.use("/api/v1/auth", authRoute);
+
+app.use("/api/v1/jobs", authenticateUser ,jobRoute);
+
 //app.get("/", (req, res) => {
 //  res.status(201).send("hello world");
 //});

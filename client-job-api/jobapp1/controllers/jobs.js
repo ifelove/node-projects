@@ -122,10 +122,16 @@ const deleteJob = async (req, res) => {
   res.status(StatusCodes.OK).send()
 }
 
+const showStats=async(req,res)=>{
+res.status(StatusCodes.OK).json({defaultStat:{},monthlyApllications:[]})
+
+}
+
 module.exports = {
   createJob,
   deleteJob,
   getAllJobs,
   updateJob,
   getJob,
+  showStats
 }

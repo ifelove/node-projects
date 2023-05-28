@@ -8,6 +8,14 @@ const errorHandler = require("./middleware/errorHandler");
 
 
 
+//extra security packages
+const xssClean=require('xss-clean')
+const cors = require("cors");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
+
+
 
 //connectdb
 const connectDB = require("./db/connectDB");
@@ -19,7 +27,18 @@ const jobRoute = require("./route/job");
 
 //middleware
 
+app.set('trust proxy',1)
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000, //15 minutes
+    max: 100, //limit eaach ip to 100 request per window
+  })
+);
 app.use(express.json());
+app.use(helmet())
+app.use(cors())
+app.use(xssClean())
+
 
 //route
 app.use("/api/v1/auth", authRoute);

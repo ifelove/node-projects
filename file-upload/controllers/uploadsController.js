@@ -2,7 +2,7 @@ const path = require("path");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const cloudinary = require("cloudinary").v2;
-
+const fs=require('fs')
 const uploadProductLocal = async (req, res) => {
   //check if file exist
   //check format
@@ -41,9 +41,8 @@ const uploadProduct = async (req, res) => {
     req.files.image.tempFilePath,
     { use_filename: true, folder: "file-upload" }
   );
-  return res
-    .status(StatusCodes.OK)
-    .json({ image: { src: result.secure_url } });
+  fs.unlinkSync(req.files.image.tempFilePath);//to delete the temp file
+ return res.status(StatusCodes.OK).json({image:{src:result.secure_url}})
 };
 
 module.exports = { uploadProductLocal, uploadProduct };

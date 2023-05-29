@@ -18,7 +18,8 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.use(express.static('./public'))
 app.use(express.json())
 //app.use(fileupload())
-app.use(fileupload());//to use tempfile
+app.use(fileupload({useTempFiles:true}));//to use tempfile(for cloudinary usa
+//ge to create temporary folder for uploaded images instead  of using public/uploads)
 
 app.get('/', (req, res) => {
   res.send('<h1>File Upload Starter</h1>');

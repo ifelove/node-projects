@@ -29,8 +29,9 @@ if(productImage.size>maxSize){throw new CustomError.BadRequestError(`Please uplo
     .json({ image: { src: `uploads/${productImage.name}` } });
 };
 
-const uploadProductCloud=(req,res)=>{
-  const result=cloudinary.uploader.upload()
+const uploadProduct=(req,res)=>{
+  console.log(req.files.image)
+  const result=cloudinary.uploader.upload(req.files.image.tempFilePath,{use_filename:true,folder:"file-upload"})
 }
 
-module.exports = { uploadProductLocal,uploadProductCloud };
+module.exports = { uploadProductLocal,uploadProduct };

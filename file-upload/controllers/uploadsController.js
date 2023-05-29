@@ -1,8 +1,9 @@
 const path = require("path");
 const { StatusCodes } = require("http-status-codes");
 const CustomError=require('../errors')
+const cloudinary=require('cloudinary').v2
 
-const uploadProduct = async (req, res) => {
+const uploadProductLocal = async (req, res) => {
     //check if file exist
     //check format
     //check size
@@ -28,4 +29,8 @@ if(productImage.size>maxSize){throw new CustomError.BadRequestError(`Please uplo
     .json({ image: { src: `uploads/${productImage.name}` } });
 };
 
-module.exports = { uploadProduct };
+const uploadProductCloud=(req,res)=>{
+  const result=cloudinary.uploader.upload()
+}
+
+module.exports = { uploadProductLocal,uploadProductCloud };

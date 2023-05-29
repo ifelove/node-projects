@@ -2,6 +2,7 @@ require('dotenv').config();
 require('express-async-errors');
 const fileupload=require('express-fileupload')
 const cloudinary=require('cloudinary').v2
+cloudinary.config({clod_name:process.env.CLOUD_NAME,cloud_api_key:process.env.CLOUD_API_KEY,cloud_api_secret:process.env.CLOUD_API_SECRET})
 
 const productRouter=require('./routes/productRoutes')
 
@@ -16,7 +17,8 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 app.use(express.static('./public'))
 app.use(express.json())
-app.use(fileupload())
+//app.use(fileupload())
+app.use(fileupload());//to use tempfile
 
 app.get('/', (req, res) => {
   res.send('<h1>File Upload Starter</h1>');

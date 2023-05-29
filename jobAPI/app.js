@@ -27,6 +27,30 @@ const jobRoute = require("./route/job");
 
 //middleware
 
+
+
+
+//swagger
+const swaggerUI=require('swagger-ui-express')
+const YAML=require("yamljs")
+const swaggerdoc=YAML.load('./swagger.yaml')
+
+
+app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerdoc))
+
+app.get("/", (req, res) => {
+  res.send(`<h1> api docs is in the link</h1><a href="/api-docs">docs</a>`);
+});
+
+
+
+
+
+
+
+
+
+
 app.set('trust proxy',1)
 app.use(
   rateLimit({

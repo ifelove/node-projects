@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
 const fileupload=require('express-fileupload')
+const cloudinary=require('cloudinary').v2
 
 const productRouter=require('./routes/productRoutes')
 
@@ -13,7 +14,7 @@ const connectDB = require('./db/connect');
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
-
+app.use(express.static('./public'))
 app.use(express.json())
 app.use(fileupload())
 

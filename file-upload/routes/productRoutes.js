@@ -9,7 +9,7 @@ const {
 
 
 router.route('/').get(getAllProducts).post(createProduct)
-router.route("/upload").post(uploadProduct);
+router.route("/uploads").post(uploadProduct);
 
 
 module.exports=router

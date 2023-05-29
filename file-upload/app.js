@@ -1,5 +1,6 @@
 require('dotenv').config();
 require('express-async-errors');
+const fileupload=require('express-fileupload')
 
 const productRouter=require('./routes/productRoutes')
 
@@ -14,6 +15,7 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.use(express.json())
+app.use(fileupload())
 
 app.get('/', (req, res) => {
   res.send('<h1>File Upload Starter</h1>');

@@ -1,8 +1,8 @@
-const Job = require('../models/Job');
-const { StatusCodes } = require('http-status-codes');
-const { BadRequestError, NotFoundError } = require('../errors');
-const mongoose = require('mongoose');
-const moment = require('moment');
+const Job = require("../models/Job");
+const { StatusCodes } = require("http-status-codes");
+const { BadRequestError, NotFoundError } = require("../errors");
+const mongoose = require("mongoose");
+const moment = require("moment");
 
 const getAllJobs = async (req, res) => {
   const { search, status, jobType, sort } = req.query;
@@ -12,27 +12,27 @@ const getAllJobs = async (req, res) => {
   };
 
   if (search) {
-    queryObject.position = { $regex: search, $options: 'i' };
+    queryObject.position = { $regex: search, $options: "i" };
   }
-  if (status && status !== 'all') {
+  if (status && status !== "all") {
     queryObject.status = status;
   }
-  if (jobType && jobType !== 'all') {
+  if (jobType && jobType !== "all") {
     queryObject.jobType = jobType;
   }
   let result = Job.find(queryObject);
 
-  if (sort === 'latest') {
-    result = result.sort('-createdAt');
+  if (sort === "latest") {
+    result = result.sort("-createdAt");
   }
-  if (sort === 'oldest') {
-    result = result.sort('createdAt');
+  if (sort === "oldest") {
+    result = result.sort("createdAt");
   }
-  if (sort === 'a-z') {
-    result = result.sort('position');
+  if (sort === "a-z") {
+    result = result.sort("position");
   }
-  if (sort === 'z-a') {
-    result = result.sort('-position');
+  if (sort === "z-a") {
+    result = result.sort("-position");
   }
 
   const page = Number(req.query.page) || 1;
@@ -65,6 +65,7 @@ const getJob = async (req, res) => {
 };
 
 const createJob = async (req, res) => {
+  console.log(req.user)
   req.body.createdBy = req.user.userId;
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
@@ -77,8 +78,8 @@ const updateJob = async (req, res) => {
     params: { id: jobId },
   } = req;
 
-  if (company === '' || position === '') {
-    throw new BadRequestError('Company or Position fields cannot be empty');
+  if (company === "" || position === "") {
+    throw new BadRequestError("Company or Position fields cannot be empty");
   }
   const job = await Job.findByIdAndUpdate(
     { _id: jobId, createdBy: userId },
@@ -110,7 +111,7 @@ const deleteJob = async (req, res) => {
 const showStats = async (req, res) => {
   let stats = await Job.aggregate([
     { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
-    { $group: { _id: '$status', count: { $sum: 1 } } },
+    { $group: { _id: "$status", count: { $sum: 1 } } },
   ]);
 
   stats = stats.reduce((acc, curr) => {
@@ -129,11 +130,11 @@ const showStats = async (req, res) => {
     { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
     {
       $group: {
-        _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+        _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" } },
         count: { $sum: 1 },
       },
     },
-    { $sort: { '_id.year': -1, '_id.month': -1 } },
+    { $sort: { "_id.year": -1, "_id.month": -1 } },
     { $limit: 6 },
   ]);
 
@@ -146,7 +147,7 @@ const showStats = async (req, res) => {
       const date = moment()
         .month(month - 1)
         .year(year)
-        .format('MMM Y');
+        .format("MMM Y");
       return { date, count };
     })
     .reverse();
